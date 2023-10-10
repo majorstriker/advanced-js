@@ -1,36 +1,55 @@
-const musicCollection = [{
-        title: "Название альбома1",
-        artist: "Исполнитель1",
-        year: "1985"
-    },
-    {
-        title: "Название альбома2",
-        artist: "Исполнитель2",
-        year: "2000"
-    },
-    {
-        title: "Название альбома3",
-        artist: "Исполнитель3",
-        year: "2010"
-    }
-];
-
-musicCollection[Symbol.iterator] = function() {
-    return {
-        current: 0,
-        to: this.length,
-        next() {
-            return this.current < this.to ? {
-                done: false,
-                value: musicCollection[this.current++]
-            } : { done: true };
+class BookLibrary {
+    // Приватное свойство для хранения списка книг
+    #
+    books = [];
+    // Геттер, который возвращает текущий список книг
+    get allBooks() {
+            return this.#books;
         }
+        // Метод для добавления книги в список
+    addBook(title) {
+            if (title < 0) throw new Error('Невозможно показать то, чего нет!');
+            this.#books += title;
+            return this.#books;
+        }
+        // Метод для удаления книги из списка
+    removeBook(title) {
+            if (title < 0) throw new Error('Книг в списке нет');
+            this.#books -= title;
+            return this.#books;
+        }
+        //проверка на дубликаты
+    hasDuplicates() {
+        return new Set(#books).size !== #books.length;
+    }
+
+    // Метод, который проверяет наличие книги в библиотеке
+    hasBook(title) {
+            for (let i = 0; i < #books.length; i++) {
+                if (#books[i] === elem) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        // constructor(initialTitle) Конструктор для инициализации начального баланса
+    constructor(initialTitle) {
+        if (initialTitle < 0) throw new Error('Список литературы пуст');
+        this.#books = initialTitle;
     }
 }
 
+// Создаем новый банковский счет с начальным балансом 500
+let library = new BookLibrary('Гарри Поттер');
+console.log(library.books); // Выводит: ['Гарри Поттер']
 
-for (let album of musicCollection) {
-    console.log(`Название: ${album.title}; 
-Автор: ${album.artist}; 
-Год выпуска: ${album.year}`);
-}
+library.addBook('Война и мир');
+console.log(library.books); // Выводит: ['Гарри Поттер', 'Война и мир']
+
+library.addBook('Мастер и Маргарита');
+console.log(library.books); // Выводит: ['Гарри Поттер', 'Война и мир', 'Мастер и Маргарита']
+
+console.log(library.hasBook('Война и мир')); // Выводит: true
+
+library.removeBook('Гарри Поттер');
+console.log(library.books); // Выводит: ['Война и мир', 'Мастер и Маргарита']
